@@ -3,50 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Wallet - Alina</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My Secure Wallet</title>
+    <style>
+        body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .box { background: #222; max-width: 400px; margin: auto; padding: 30px; border-radius: 12px; }
+        input { width: 80%; padding: 10px; margin: 15px 0; border-radius: 5px; border: none; }
+        .btn { background: #0070ba; color: #fff; border: none; padding: 12px; width: 85%; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>User Account Wallet</h1>
-            <a href="games.html" class="back-btn">← Back to Games</a>
-        </header>
-
-        <div class="wallet-status">
-            <h2>Current Balance</h2>
-            <div class="balance-display" id="wallet-balance">Loading...</div>
-        </div>
-
-        <div class="add-funds-section">
-            <h3>Add Funds to Wallet</h3>
-            <p>Secure payment via PayPal</p>
-            
-            <!-- PayPal Input and Action -->
-            <div class="payment-box">
-                <input type="number" id="deposit-amount" placeholder="Enter Amount (₹)" min="10">
-                <!-- PayPal Checkout Redirect Container -->
-                <div id="paypal-button-container" style="margin-top: 15px;">
-                    <button class="play-btn" id="pay-now-btn" style="background-color: #0070ba; width: 100%;">Pay with PayPal</button>
-                </div>
-            </div>
-        </div>
+    <div class="box">
+        <h2>Account Balance</h2>
+        <h1 id="wallet-balance" style="color:#00ffcc;">₹100</h1>
+        <hr style="border-color:#333;">
+        <h3>Deposit Funds</h3>
+        <input type="number" id="amt" placeholder="Enter Amount (₹)" min="10">
+        <button class="btn" onclick="pay()">Pay with PayPal</button>
     </div>
-
-    <!-- Firebase System Connect -->
     <script type="module" src="script.js"></script>
     <script>
-        // PayPal button action setup
-        document.getElementById('pay-now-btn').addEventListener('click', () => {
-            const amount = document.getElementById('deposit-amount').value;
-            if(!amount || amount < 10) {
-                alert("Please enter a valid amount (Minimum ₹10)");
-                return;
-            }
-            // User ko PayPal payment secure raste par bhejne ke liye
-            alert("Redirecting to PayPal for ₹" + amount);
-            window.location.href = "https://paypal.com"; 
-        });
+        function pay() {
+            const v = document.getElementById("amt").value;
+            if(!v || v < 10) { alert("Minimum amount is ₹10"); return; }
+            window.location.href = "https://paypal.com";
+        }
     </script>
 </body>
 </html>
