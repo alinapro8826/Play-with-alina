@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Play with Alina</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="logo">🎮 Play with Alina</div>
+</header>
+
+<section class="hero">
+
+<h1>Login</h1>
+
+<form id="loginForm" style="max-width:400px;margin:auto;">
+
+<input id="email" type="email" placeholder="Email"
+style="width:100%;padding:15px;margin:10px 0;border-radius:8px;">
+
+<input id="password" type="password" placeholder="Password"
+style="width:100%;padding:15px;margin:10px 0;border-radius:8px;">
+
+<button class="btn" type="submit">Login</button>
+
+</form>
+
+<p style="margin-top:20px;">
+Don't have an account?
+<a href="signup2.html" style="color:#00ffd5;">Sign Up</a>
+</p>
+
+</section>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+authDomain: "playwithalina-d7bb3.firebaseapp.com",
+projectId: "playwithalina-d7bb3",
+storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+messagingSenderId: "18244211359",
+appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+
+document.getElementById("loginForm").addEventListener("submit", async(e)=>{
+
+e.preventDefault();
+
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+
+try{
+
+await signInWithEmailAndPassword(auth,email,password);
+
+alert("Login Successful");
+
+window.location.href="wallet.html";
+
+}
+catch(error){
+
+alert(error.message);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
