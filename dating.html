@@ -1,53 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alina Dating Hub</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Alina Dating Matcher</h1>
-            <div class="wallet-badge">Coins: <span id="wallet-balance">...</span></div>
-        </header>
+<script>
+    const profiles = [
+        { name: "Alina, 22", bio: "Love casino gaming and live tech design.", img: "https://unsplash.com" },
+        { name: "Priya, 24", bio: "Tech enthusiast looking for multiplayer matches.", img: "https://unsplash.com" }
+    ];
+    let currentIdx = 0;
 
-        <div class="dating-card-profile">
-            <div class="profile-image-placeholder">❤️</div>
-            <h2 id="match-name">Finding Matches...</h2>
-            <p id="match-bio">Connecting safely to your Firebase profile database...</p>
-            
-            <div class="action-buttons">
-                <button class="btn-dislike" onclick="nextMatch()">✕ Pass</button>
-                <button class="btn-like" onclick="nextMatch()">♥ Match</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase Profile Backend -->
-    <script type="module" src="script.js"></script>
-    <script>
-        // Dummy data rotation for fluid user interaction
-        const profiles = [
-            { name: "Alina, 22", bio: "Love gaming, music, and software code exploration!" },
-            { name: "Priya, 24", bio: "Tech enthusiast looking for fun web multiplayer games." },
-            { name: "Sneha, 21", bio: "Casual gamer who loves to build things from scratch." }
-        ];
-        let currentIdx = 0;
-
-        function nextMatch() {
-            currentIdx = (currentIdx + 1) % profiles.length;
-            document.getElementById('match-name').innerText = profiles[currentIdx].name;
-            document.getElementById('match-bio').innerText = profiles[currentIdx].bio;
-        }
-        
-        // Initial execution load
-        setTimeout(() => {
-            if(document.getElementById('match-name').innerText === "Finding Matches...") {
-                nextMatch();
-            }
-        }, 1500);
-    </script>
-</body>
-</html>
+    function nextMatch() {
+        currentIdx = (currentIdx + 1) % profiles.length;
+        document.getElementById('match-name').innerText = profiles[currentIdx].name;
+        document.getElementById('match-bio').innerText = profiles[currentIdx].bio;
+        // Image element validation anchor
+        const imgContainer = document.querySelector('.profile-image-placeholder');
+        if(imgContainer) imgContainer.innerHTML = `<img src="${profiles[currentIdx].img}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+    }
+    setTimeout(nextMatch, 500);
+</script>
