@@ -1,92 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Wallet - Play with Alina</title>
-<link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet - Alina Vegas Pro</title>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body { 
+            background: radial-gradient(circle at center, #140522 0%, #05010a 100%); 
+            color: #ffffff; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            text-align: center;
+        }
 
+        /* Unified Premium Navbar Layout */
+        header {
+            background: rgba(10, 2, 18, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            border-bottom: 3px solid #ff0077;
+            box-shadow: 0 0 20px rgba(255, 0, 119, 0.4);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            letter-spacing: 1px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: #ddd;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        nav a:hover { color: #ff0077; text-shadow: 0 0 10px #ff0077; }
+        
+        .deposit-blink {
+            color: #ffcc00 !important;
+            border: 1px solid #ffcc00;
+            padding: 6px 14px;
+            border-radius: 4px;
+            animation: neonBlink 1.5s infinite alternate;
+        }
+        @keyframes neonBlink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 10px #ffcc00; } }
+        
+        .nav-wallet-status {
+            background: #1c0b30;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #00ff66;
+            font-weight: bold;
+            border: 1px solid #00ff66;
+            font-size: 14px;
+        }
+
+        /* Balance Sheet Hub Box Card */
+        .wallet-card { 
+            background: #0d0217; 
+            max-width: 440px; 
+            margin: 50px auto; 
+            padding: 40px 30px; 
+            border-radius: 16px; 
+            border: 1px solid #ff0077;
+            box-shadow: 0 0 25px rgba(255, 0, 119, 0.2); 
+        }
+        
+        .wallet-card h2 { color: #aaa; margin: 0 0 5px 0; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .balance-value { 
+            font-size: 46px; 
+            font-weight: 900; 
+            color: #00ff66; 
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            margin-bottom: 30px;
+            font-family: monospace, sans-serif;
+        }
+        
+        .btn-wallet-action { 
+            background: linear-gradient(90deg, #ff0077, #ff5500); 
+            color: #fff; 
+            padding: 14px 0; 
+            text-decoration: none; 
+            font-weight: bold; 
+            border-radius: 25px; 
+            display: block; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 119, 0.2); 
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .btn-wallet-action:hover { opacity: 0.95; box-shadow: 0 4px 20px rgba(255, 0, 119, 0.4); transform: translateY(-1px); }
+        
+        .btn-withdraw {
+            background: #1c0b30 !important;
+            border: 1px solid #ff0077 !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+        .btn-withdraw:hover { background: #ff0077 !important; color: #fff !important; box-shadow: 0 4px 15px rgba(255, 0, 119, 0.3) !important; }
+    </style>
+</head>
 <body>
 
 <header>
-<div class="logo">💰 Wallet</div>
+    <div class="logo">🎰 ALINA VEGAS</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="Deposit.html" class="deposit-blink">Add Funds</a>
+        <a href="Adminaprooval.html">Owner Panel</a>
+    </nav>
+    <div class="nav-wallet-status"><i class="fa-solid fa-wallet"></i> Wallet: <span id="nav-wallet-display">$0.00</span></div>
 </header>
 
-
-<section class="hero">
-
-<h1>Wallet Balance</h1>
-
-<h2 id="balance">$0.00</h2>
-
-<button class="btn" id="addMoney">Add Money</button>
-
-<br><br>
-
-<button class="btn" id="withdraw">Withdraw</button>
-
-</section>
-
+<div class="wallet-card">
+    <div style="font-size: 45px; color: #ffcc00; margin-bottom: 15px;"><i class="fa-solid fa-vault"></i></div>
+    <h2>Available Balance</h2>
+    <div class="balance-value" id="balance-display">$0.00</div>
+    
+    <button class="btn-wallet-action" id="addMoney-btn"><i class="fa-solid fa-circle-plus"></i> Add Funds</button>
+    <button class="btn-wallet-action btn-withdraw" id="withdraw-btn"><i class="fa-solid fa-money-bill-wave"></i> Request Withdraw</button>
+</div>
 
 <script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
+    import { getFirestore, doc, onSnapshot } from "https://gstatic.com";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+        authDomain: "playwithalina-d7bb3.firebaseapp.com",
+        projectId: "playwithalina-d7bb3",
+        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+        messagingSenderId: "18244211359",
+        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+    };
 
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    // Secure persistent authentication monitoring wrapper
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            // Live reactive tracking listeners for database fields mapping
+            onSnapshot(doc(db, "users", user.uid), docSnap => {
+                if (docSnap.exists()) {
+                    let finalBalance = docSnap.data().walletBalance || 0;
+                    
+                    // Synchronizing values inside both dashboard elements
+                    document.getElementById("balance-display").innerText = "$" + finalBalance.toFixed(2);
+                    document.getElementById("nav-wallet-display").innerText = "$" + finalBalance.toFixed(2);
+                }
+            }, (error) => { console.log(error); });
+        }
+    });
 
+    // Dynamic routing trigger linking to Deposit document
+    document.getElementById("addMoney-btn").addEventListener('click', () => {
+        window.location.href = "Deposit.html";
+    });
 
-const firebaseConfig = {
-apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
-authDomain: "playwithalina-d7bb3.firebaseapp.com",
-projectId: "playwithalina-d7bb3",
-storageBucket: "playwithalina-d7bb3.firebasestorage.app",
-messagingSenderId: "18244211359",
-appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
-};
-
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-const user = auth.currentUser;
-
-
-if(user){
-
-const userRef = doc(db,"users",user.uid);
-
-const snap = await getDoc(userRef);
-
-
-if(snap.exists()){
-
-let coins = snap.data().coins || 0;
-
-document.getElementById("balance").innerHTML = "$" + coins;
-
-}
-
-}
-
-
-document.getElementById("addMoney").onclick = async()=>{
-
-alert("Add Money system coming soon");
-
-};
-
-
-document.getElementById("withdraw").onclick = async()=>{
-
-alert("Withdraw request coming soon");
-
-};
-
-
+    document.getElementById("withdraw-btn").addEventListener('click', () => {
+        alert("💰 Withdraw interface configuration is coming soon in the next system framework update!");
+    });
 </script>
-
 </body>
 </html>
