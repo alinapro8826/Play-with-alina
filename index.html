@@ -4,18 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alina Vegas Pro - Live Premium Casino</title>
+<link rel="stylesheet" href="style.css">
 <style>
-    /* Full Neon Casino Premium Theme Design */
     body {
         background: radial-gradient(circle at center, #1a0826 0%, #090210 100%);
         color: #ffffff;
         font-family: 'Segoe UI', Roboto, sans-serif;
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
     }
-
-    /* Laser Header Component */
     header {
         background: rgba(15, 2, 28, 0.9);
         display: flex;
@@ -23,13 +20,13 @@
         align-items: center;
         padding: 15px 40px;
         border-bottom: 3px solid #ff0077;
-        box-shadow: 0 0 25px #ff0077, inset 0 0 10px #ff0077;
+        box-shadow: 0 0 25px #ff0077;
     }
     .logo {
         font-size: 26px;
         font-weight: 900;
         color: #00ffff;
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+        text-shadow: 0 0 10px #00ffff;
         letter-spacing: 2px;
     }
     nav a {
@@ -39,26 +36,16 @@
         font-size: 16px;
         font-weight: bold;
         text-transform: uppercase;
-        transition: 0.3s;
     }
-    nav a:hover {
-        color: #ff0077;
-        text-shadow: 0 0 15px #ff0077;
-    }
+    nav a:hover { color: #ff0077; text-shadow: 0 0 15px #ff0077; }
     .deposit-blink {
         color: #ffcc00 !important;
         border: 2px solid #ffcc00;
         padding: 5px 15px;
         border-radius: 5px;
-        box-shadow: 0 0 10px #ffcc00;
         animation: neonBlink 1.5s infinite alternate;
     }
-    @keyframes neonBlink {
-        0% { opacity: 0.7; box-shadow: 0 0 5px #ffcc00; }
-        100% { opacity: 1; box-shadow: 0 0 20px #ffcc00; }
-    }
-
-    /* Live Dollar Wallet Container */
+    @keyframes neonBlink { 0% { opacity: 0.7; } 100% { opacity: 1; } }
     .nav-wallet-status {
         background: #22123b;
         padding: 8px 18px;
@@ -66,85 +53,15 @@
         color: #00ff66;
         font-weight: bold;
         border: 1px solid #00ff66;
-        box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
     }
-
-    /* Las Vegas Welcome Hero Wrapper */
-    .hero {
-        text-align: center;
-        padding: 60px 20px;
-        background: url('https://unsplash.com') no-repeat center center/cover;
-        background-blend-mode: overlay;
-        background-color: rgba(17, 2, 31, 0.85);
-        border-bottom: 2px dashed #00ffff;
-    }
-    .hero h1 {
-        font-size: 55px;
-        margin: 0;
-        color: #ff0077;
-        text-shadow: 0 0 20px #ff0077, 0 0 40px #ff0077;
-    }
-    .hero p {
-        font-size: 20px;
-        color: #00ffff;
-        text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-    }
-
-    /* 3D Casino Cards Grid Layout Component */
-    .casino-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        max-width: 1200px;
-        margin: 50px auto;
-        padding: 0 20px;
-    }
-    .casino-card {
-        background: linear-gradient(145deg, #1b052e, #110221);
-        border: 2px solid #ff0077;
-        border-radius: 15px;
-        padding: 20px;
-        text-align: center;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 0 15px rgba(255, 0, 119, 0.2);
-        transition: 0.4s;
-    }
-    .casino-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        border-color: #00ffff;
-        box-shadow: 0 0 25px #00ffff, inset 0 0 10px rgba(0, 255, 255, 0.3);
-    }
-    .casino-card h2 {
-        font-size: 24px;
-        color: #ffcc00;
-        margin-top: 0;
-        text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
-    }
-    .casino-card p {
-        color: #bfa6d9;
-        font-size: 14px;
-        min-height: 40px;
-    }
-    .btn-bet {
-        background: linear-gradient(90deg, #ff0077, #ff5500);
-        color: #fff;
-        border: none;
-        padding: 12px 30px;
-        text-decoration: none;
-        font-weight: bold;
-        border-radius: 25px;
-        display: inline-block;
-        box-shadow: 0 4px 15px rgba(255, 0, 119, 0.5);
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .btn-bet:hover {
-        background: linear-gradient(90deg, #00ffff, #00ff66);
-        color: #000;
-        box-shadow: 0 4px 20px #00ff66;
-    }
+    .hero { text-align: center; padding: 60px 20px; background-color: rgba(17, 2, 31, 0.85); }
+    .hero h1 { font-size: 55px; color: #ff0077; text-shadow: 0 0 20px #ff0077; }
+    .casino-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+    .casino-card { background: #110221; border: 2px solid #ff0077; border-radius: 15px; padding: 20px; text-align: center; }
+    .casino-card h2 { color: #ffcc00; }
+    .btn-bet { background: linear-gradient(90deg, #ff0077, #ff5500); color: #fff; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 25px; display: inline-block; }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -163,33 +80,25 @@
     <p>⚡ High Stakes • Instant Cashout • 24/7 Live Dealers ⚡</p>
 </section>
 
-<!-- Premium Casino Games Catalog -->
 <section class="casino-grid">
-    <!-- Game 1: Teen Patti -->
     <div class="casino-card">
         <h2>👑 Live Teen Patti</h2>
-        <p>Classic Indian 3-Card Poker. Play with real players globally and score huge multiplier pots!</p>
+        <p>Classic Indian 3-Card Poker. Play with real players globally!</p>
         <a href="games.html" class="btn-bet">Bet Now (Fee: $0.20)</a>
     </div>
-
-    <!-- Game 2: Rummy -->
     <div class="casino-card">
         <h2>🃏 Pro Rummy 24x7</h2>
-        <p>Fast-paced strategic card melding. Form sets and sequences to wipe out the dealer's chips.</p>
+        <p>Fast-paced strategic card melding. Wipe out the dealer's chips.</p>
         <a href="games.html" class="btn-bet">Join Table (Fee: $0.20)</a>
     </div>
-
-    <!-- Game 3: Casino Roulette -->
     <div class="casino-card">
         <h2>🔴 Vegas Roulette Wheel</h2>
-        <p>Spin the lucky red & black wheel. Predict number or color splits for 35x payout.</p>
+        <p>Spin the lucky red & black wheel. Predict number splits.</p>
         <a href="games.html" class="btn-bet">Spin & Win (Fee: $0.20)</a>
     </div>
-
-    <!-- Game 4: Classic Snake Cash -->
     <div class="casino-card">
         <h2>🐍 Snake Arena Pro</h2>
-        <p>Your custom skill game. Hit a score of 15 and multiply your entry bet tokens instantly!</p>
+        <p>Your custom skill game. Hit a score of 15 and multiply your tokens!</p>
         <a href="snake.html" class="btn-bet">Start Match</a>
     </div>
 </section>
