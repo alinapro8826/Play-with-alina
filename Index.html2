@@ -46,7 +46,7 @@
         .nav-links a {
             color: #aaa;
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 12px;
             font-size: 15px;
             font-weight: 600;
             transition: 0.2s;
@@ -134,7 +134,7 @@
 </head>
 <body>
 
-<!-- 1. Gaming Navigation Bar Component Header -->
+<!-- 1. Gaming Navigation Bar Component Header (With Rock-Paper Included) -->
 <nav class="gaming-navbar">
     <div class="nav-logo">
         <a href="index.html">🎮 PLAYWITHALINA <span class="pro-tag">PRO</span></a>
@@ -144,6 +144,7 @@
         <a href="games.html" class="nav-item">🔥 Mega Portal</a>
         <a href="snake.html" class="nav-item">🐍 Snake Cash</a>
         <a href="tictactoe.html" class="nav-item">❌ Tic-Tac-Toe</a>
+        <a href="rps.html" class="nav-item">✊ Rock-Paper</a>
         <a href="deposit.html" class="nav-item deposit-highlight">💰 Add Funds</a>
     </div>
 
