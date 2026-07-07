@@ -1,0 +1,130 @@
+<!-- Premium Neon Gaming Navigation Bar Grid Component -->
+<nav class="gaming-navbar">
+    <div class="nav-logo">
+        <a href="index.html">🎮 PLAYWITHALINA <span class="pro-tag">PRO</span></a>
+    </div>
+    
+    <div class="nav-links">
+        <a href="games.html" class="nav-item">🔥 Mega Portal</a>
+        <a href="snake.html" class="nav-item">🐍 Snake Cash</a>
+        <a href="tictactoe.html" class="nav-item">❌ Tic-Tac-Toe</a>
+        <a href="deposit.html" class="nav-item deposit-highlight">💰 Add Funds</a>
+    </div>
+
+    <div class="nav-wallet-status">
+        <div class="live-indicator"></div>
+        <span>USD Balance: </span>
+        <strong id="nav-wallet-display">$0.00</strong>
+    </div>
+</nav>
+
+<style>
+    /* Styling for the Navigation Component */
+    .gaming-navbar {
+        background: #14141c;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        border-bottom: 2px solid #00ff66;
+        box-shadow: 0 4px 20px rgba(0, 255, 102, 0.1);
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .nav-logo a {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 900;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+    .pro-tag {
+        background: #00ff66;
+        color: #000;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        vertical-align: middle;
+        margin-left: 5px;
+    }
+    .nav-links a {
+        color: #aaa;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+    .nav-links a:hover {
+        color: #00ff66;
+        text-shadow: 0 0 10px #00ff66;
+    }
+    .nav-links .deposit-highlight {
+        color: #ffcc00;
+        border: 1px dashed #ffcc00;
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+    .nav-links .deposit-highlight:hover {
+        background: #ffcc00;
+        color: #000;
+        box-shadow: 0 0 10px #ffcc00;
+    }
+    .nav-wallet-status {
+        background: #222230;
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        font-size: 14px;
+        border: 1px solid #333;
+    }
+    .nav-wallet-status strong {
+        color: #ffcc00;
+        margin-left: 6px;
+    }
+    .live-indicator {
+        width: 8px;
+        height: 8px;
+        background: #00ff66;
+        border-radius: 50%;
+        margin-right: 8px;
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(0.9); opacity: 0.6; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.6; }
+    }
+</style>
+
+<!-- Live Watcher script link to automatically update navbar wallet balance -->
+<script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getFirestore, doc, onSnapshot } from "https://gstatic.com";
+    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+        authDomain: "://firebaseapp.com",
+        projectId: "playwithalina-d7bb3",
+        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+        messagingSenderId: "18244211359",
+        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            onSnapshot(doc(db, 'users', user.uid), docSnap => {
+                if (docSnap.exists()) {
+                    let balance = docSnap.data().walletBalance || 0;
+                    document.getElementById('nav-wallet-display').innerText = '$' + balance.toFixed(2);
+                }
+            });
+        }
+    });
+</script>
