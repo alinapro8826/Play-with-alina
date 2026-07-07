@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nitro Car Racing</title>
+    <style>
+        body { background: #333; color: #fff; font-family: sans-serif; text-align: center; margin: 0; overflow: hidden; }
+        .road { width: 200px; height: 300px; background: #111; margin: auto; border-left: 5px dashed #fff; border-right: 5px dashed #fff; position: relative; }
+        .car { font-size: 32px; position: absolute; bottom: 20px; left: 80px; transition: 0.2s; }
+    </style>
+</head>
+<body>
+    <a href="games.html" style="color:#ff007f; display:block; margin:10px;">← Back</a>
+    <h1>🏎️ NITRO HIGHWAY RACING</h1>
+    <div class="road">
+        <div class="car" id="hero">🏎️</div>
+    </div>
+    <div style="margin-top:15px;">
+        <button style="padding:15px; font-size:18px;" onclick="move(-30)">⬅️ Left</button>
+        <button style="padding:15px; font-size:18px;" onclick="move(30)">Right ➡️</button>
+    </div>
+    <script>
+        let l = 80;
+        function move(d) { l += d; if(l<20)l=20; if(l>140)l=140; document.getElementById("hero").style.left = l + "px"; }
+    </script>
+</body>
+</html>
