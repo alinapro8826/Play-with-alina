@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alina Dating Pool Hub</title>
+<link rel="stylesheet" href="https://cloudflare.com">
+<style>
+    body { background: radial-gradient(circle at center, #1b021a 0%, #06000d 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; text-align: center; }
+    header { background: rgba(10, 2, 18, 0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; border-bottom: 3px solid #00ffff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+    .logo { font-size: 24px; font-weight: 900; color: #ff0077; text-shadow: 0 0 10px #ff0077; letter-spacing: 1px; }
+    nav a { color: #ddd; text-decoration: none; margin: 0 12px; font-size: 15px; font-weight: bold; text-transform: uppercase; }
+    .nav-wallet-status { background: #0c1c24; padding: 8px 16px; border-radius: 20px; color: #00ff66; font-weight: bold; border: 1px solid #00ff66; }
+    
+    .match-box { background: #120114; max-width: 400px; margin: 40px auto; padding: 30px 20px; border-radius: 20px; border: 2px solid #00ffff; box-shadow: 0 0 30px rgba(0, 240, 255, 0.2); }
+    .profile-img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #ff0077; object-fit: cover; margin-bottom: 15px; box-shadow: 0 0 15px #ff0077; }
+    .profile-name { font-size: 24px; font-weight: bold; color: #fff; margin-bottom: 5px; }
+    .profile-meta { color: #00ffff; font-size: 14px; font-weight: bold; margin-bottom: 15px; }
+    .profile-bio { color: #aaa; font-size: 14px; line-height: 1.5; margin-bottom: 25px; padding: 0 10px; }
+    
+    .action-panel { display: flex; justify-content: space-around; }
+    .action-btn { width: 70px; height: 70px; border-radius: 50%; border: none; cursor: pointer; font-size: 28px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .btn-skip { background: #220202; color: #ff3333; border: 1px solid #ff3333; }
+    .btn-skip:hover { background: #ff3333; color: #000; box-shadow: 0 0 15px #ff3333; }
+    .btn-heart { background: #022216; color: #00ff66; border: 1px solid #00ff66; }
+    .btn-heart:hover { background: #00ff66; color: #000; box-shadow: 0 0 15px #00ff66; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">💖 ALINA VEGAS DATING</div>
+    <nav><a href="index.html">Home</a><a href="games.html">Games</a></nav>
+    <div class="nav-wallet-status">💰 Wallet: <span id="nav-wallet-display">$0.00</span></div>
+</header>
+
+<h2 style="color: #ff0077; margin-top: 30px; text-shadow: 0 0 10px rgba(255,0,119,0.3);">💞 Match & Earn Real Cash Rewards</h2>
+<p style="color: #aaa; font-size: 14px;">Swipe Right on online profiles. If a match is successful, receive a $0.50 cash incentive directly.</p>
+
+<div class="match-box">
+    <img src="https://unsplash.com" class="profile-img" id="p-img">
+    <div class="profile-name" id="p-name">Alina Sharma</div>
+    <div class="profile-meta" id="p-meta">Age: 21 • Online Now 🟢</div>
+    <div class="profile-bio" id="p-bio">"Love playing high-stakes slots and card tables. Match with me if you want to compete together inside Vegas rooms!"</div>
+    
+    <div class="action-panel">
+        <button class="action-btn btn-skip" onclick="nextProfile()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="action-btn btn-heart" onclick="triggerMatch()"><i class="fa-solid fa-heart"></i></button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getFirestore, doc, onSnapshot, updateDoc, increment, addDoc, collection, serverTimestamp } from "https://gstatic.com";
+    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
+
+    const firebaseConfig = { apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc", authDomain: "://firebaseapp.com", projectId: "playwithalina-d7bb3", storageBucket: "playwithalina-d7bb3.firebasestorage.app", messagingSenderId: "18244211359", appId: "1:18244211359:web:d10be09d3e9fbb184c88aa" };
+    const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
+
+    const profiles = [
+        { name: "Neha Verma", age: 22, bio: "Active poker player. Looking for a pro mate to crush casino tournaments together.", img: "https://unsplash.com" },
+        { name: "Priya Kakran", age: 20, bio: "Snake Arena master! Catch me online if you have higher targets.", img: "https://unsplash.com" },
+        { name: "Riya Sen", age: 23, bio: "Casual gamer, high rolling risk taker. Swipe right to link systems.", img: "https://unsplash.com" }
+    ];
+    let currentIndex = 0;
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            onSnapshot(doc(db, 'users', user.uid), docSnap => {
+                if (docSnap.exists()) {
+                    document.getElementById('nav-wallet-display').innerText = '$' + (docSnap.data().walletBalance || 0).toFixed(2);
+                }
+            });
+        }
+    });
+
+    window.nextProfile = function() {
+        currentIndex = (currentIndex + 1) % profiles.length;
+        document.getElementById('p-img').src = profiles[currentIndex].img;
+        document.getElementById('p-name').innerText = profiles[currentIndex].name;
+        document.getElementById('p-meta').innerText = `Age: ${profiles[currentIndex].age} • Online Now 🟢`;
+        document.getElementById('p-bio').innerText = `"${profiles[currentIndex].bio}"`;
+    }
+
+    window.triggerMatch = async function() {
+        const user = auth.currentUser; if(!user) return alert("Please Login!");
+        
+        // Randomly calculate matching outcome metrics
+        if(Math.random() > 0.4) {
+            alert(`🎉 It's a Premium Match with ${profiles[currentIndex].name}! You earned $0.50 reward!`);
+            try {
+                await updateDoc(doc(db, 'users', user.uid), { walletBalance: increment(0.50) });
+                await addDoc(collection(db, 'transactions'), { userId: user.uid, type: 'Dating Match Bonus', amount: 0.50, timestamp: serverTimestamp() });
+            } catch(e) { console.log(e); }
+        } else {
+            alert("💔 Profile skipped or system match unsuccessful this time. Try matching another profile!");
+        }
+        nextProfile();
+    }
+</script>
+</body>
+</html>
