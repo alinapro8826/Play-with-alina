@@ -1,46 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Alina Vegas Pro</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #140522 0%, #05010a 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background: #0d0217;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid #ff0077;
+            box-shadow: 0 0 30px rgba(255, 0, 119, 0.25);
+            text-align: center;
+            box-sizing: border-box;
+            margin: 20px;
+        }
+
+        .logo-icon {
+            font-size: 50px;
+            color: #00ffff;
+            text-shadow: 0 0 15px #00ffff;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+            color: #ffcc00;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #b5b5c3;
+            font-size: 14px;
+            margin: 0 0 30px 0;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: #ff0077;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #ff0077;
+            background: #05010a;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            box-shadow: 0 0 12px #ff0077;
+            outline: none;
+            background: #110322;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            background: linear-gradient(90deg, #ff0077, #ff5500);
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 119, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(255, 0, 119, 0.5);
+        }
+
+        .switch-text {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .switch-text a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-text a:hover {
+            text-shadow: 0 0 8px #00ffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo-icon"><i class="fa-solid fa-slot-machine"></i>🎰</div>
+    <h2>ALINA VEGAS</h2>
+    <p>Sign in to enter the premium arena</p>
+
+    <form>
+        <div class="input-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="enter your email" required>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Account Password</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="enter your password" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-login">Log In Account</button>
+    </form>
+
+    <div class="switch-text">
+        Don't have an account? <a href="signup.html">Create Account</a>
+    </div>
+</div>
+
 <script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getAuth, signInWithEmailAndPassword } from "https://gstatic.com";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+        authDomain: "playwithalina-d7bb3.firebaseapp.com",
+        projectId: "playwithalina-d7bb3",
+        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+        messagingSenderId: "18244211359",
+        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-const firebaseConfig = {
-apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
-authDomain: "playwithalina-d7bb3.firebaseapp.com",
-projectId: "playwithalina-d7bb3",
-storageBucket: "playwithalina-d7bb3.firebasestorage.app",
-messagingSenderId: "18244211359",
-appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
-};
+    document.querySelector("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
+        const email = document.querySelector('input[type="email"]').value;
+        const password = document.querySelector('input[type="password"]').value;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-
-document.querySelector("form").addEventListener("submit", async(e)=>{
-
-e.preventDefault();
-
-const email = document.querySelector('input[type="email"]').value;
-const password = document.querySelector('input[type="password"]').value;
-
-
-try{
-
-await signInWithEmailAndPassword(auth,email,password);
-
-alert("Login Successful");
-
-window.location.href="wallet.html";
-
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-});
-
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            alert("🎉 Login Successful! Welcome to Alina Vegas.");
+            // Redirected from wallet to main functional index panel
+            window.location.href = "index.html";
+        } catch (error) {
+            alert("❌ Authentication Error: " + error.message);
+        }
+    });
 </script>
+</body>
+</html>
