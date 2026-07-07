@@ -4,119 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with Alina - Premium Arena</title>
-<!-- Aapka Purana Style Connection jisse design kharab nahi hoga -->
 <link rel="stylesheet" href="style.css">
-
 <style>
-    /* Naye layout ke zaroori features jo upar fixed dikhenge */
-    .nav-wallet-status {
-        background: #222230;
-        padding: 5px 15px;
-        border-radius: 20px;
-        display: inline-flex;
-        align-items: center;
-        color: #fff;
-        font-size: 14px;
-        border: 1px solid #333;
-        float: right;
-        margin-top: -5px;
-    }
+    /* Fixed UI headers for real-time tracking element */
+    .nav-wallet-status { background: #222230; padding: 5px 15px; border-radius: 20px; color: #fff; font-size: 14px; border: 1px solid #333; float: right; margin-top: -5px; }
     .nav-wallet-status strong { color: #ffcc00; margin-left: 6px; }
-    .live-indicator { width: 8px; height: 8px; background: #00ff66; border-radius: 50%; margin-right: 8px; display: inline-block; }
+    .live-indicator { width: 8px; height: 8px; background: #00ff66; border-radius: 50%; display: inline-block; }
     .deposit-highlight { color: #ffcc00 !important; font-weight: bold; border: 1px dashed #ffcc00; padding: 3px 8px; border-radius: 4px; }
     .btn-play-now { background: #00ff66; color: #000; padding: 8px 15px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; margin-top: 10px; }
-    .btn-play-now:hover { background: #00cc52; }
 </style>
 </head>
-
 <body>
-
 <header>
 <div class="logo">🎮 Play with Alina</div>
 <nav>
-    <!-- Perfect Static Routing Links - No More 404 Errors -->
     <a href="index.html">Home</a>
     <a href="games.html">🔥 Games Portal</a>
     <a href="snake.html">🐍 Snake Cash</a>
     <a href="tictactoe.html">❌ Tic-Tac-Toe</a>
-    <a href="rps.html">✊ Rock-Paper</a>
-    <a href="deposit.html" class="deposit-highlight">💰 Add Funds</a>
+    <a href="RPS.html">✊ Rock-Paper</a>
+    <a href="Deposit.html" class="deposit-highlight">💰 Add Funds</a>
     <a href="admin.html">Admin</a>
-    
-    <div class="nav-wallet-status">
-        <div class="live-indicator"></div>
-        <span>USD: </span><strong id="nav-wallet-display">$0.00</strong>
-    </div>
+    <div class="nav-wallet-status"><div class="live-indicator"></div> USD: <strong id="nav-wallet-display">$0.00</strong></div>
 </nav>
 </header>
-
-<section class="hero">
-<h1>Play • Compete • Win</h1>
-<p>Welcome to the future of online gaming. Play 1000+ top trending games and earn direct USD profits!</p>
-<a class="btn" href="games.html">Start Playing Now</a>
-</section>
-
-<!-- Active Live Game Dashboard Cards Selector Grid -->
+<section class="hero"><h1>Play • Compete • Win</h1><a class="btn" href="games.html">Start Playing Now</a></section>
 <section class="games">
-    <div class="game-card">
-        <h2>🔥 1000+ Mega Portal</h2>
-        <p>Unlock Cricket, Racing, Fighting and thousands of global trending games instantly.</p>
-        <a href="games.html" class="btn-play-now">Open Portal</a>
-    </div>
-
-    <div class="game-card">
-        <h2>🐍 Retro Snake Cash</h2>
-        <p>Score 15 points in classic snake arena and multiply your wallet money entry.</p>
-        <a href="snake.html" class="btn-play-now">Start Playing</a>
-    </div>
-
-    <div class="game-card">
-        <h2>❌ Tic-Tac-Toe Win</h2>
-        <p>Challenge our smart AI engine bot in cross-and-circle battle royale style.</p>
-        <a href="tictactoe.html" class="btn-play-now">Play vs Bot</a>
-    </div>
-
-    <div class="game-card">
-        <h2>✊ Rock Paper Scissors</h2>
-        <p>Try your strategy hand tricks in classic rock paper scissors dollar mode.</p>
-        <a href="rps.html" class="btn-play-now">Play Match</a>
-    </div>
+    <div class="game-card"><h2>🔥 1000+ Mega Portal</h2><a href="games.html" class="btn-play-now">Open Portal</a></div>
+    <div class="game-card"><h2>🐍 Retro Snake Cash</h2><a href="snake.html" class="btn-play-now">Start Playing</a></div>
+    <div class="game-card"><h2>❌ Tic-Tac-Toe Win</h2><a href="tictactoe.html" class="btn-play-now">Play vs Bot</a></div>
+    <div class="game-card"><h2>✊ Rock Paper Scissors</h2><a href="RPS.html" class="btn-play-now">Play Match</a></div>
 </section>
-
-<footer>
-© 2026 Play with Alina
-</footer>
-
-<!-- Main Live Firebase Layout Core Watcher Execution -->
+<footer>© 2026 Play with Alina</footer>
 <script type="module">
     import { initializeApp } from "https://gstatic.com";
     import { getFirestore, doc, onSnapshot } from "https://gstatic.com";
     import { getAuth, onAuthStateChanged } from "https://gstatic.com";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
-        authDomain: "://firebaseapp.com",
-        projectId: "playwithalina-d7bb3",
-        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
-        messagingSenderId: "18244211359",
-        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
-    };
-
+    const firebaseConfig = { /* ...config... */ };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-
     onAuthStateChanged(auth, user => {
-        if (user) {
-            onSnapshot(doc(db, 'users', user.uid), docSnap => {
-                if (docSnap.exists()) {
-                    let balance = docSnap.data().walletBalance || 0;
-                    document.getElementById('nav-wallet-display').innerText = '$' + balance.toFixed(2);
-                }
-            });
-        }
+        if (user) onSnapshot(doc(db, 'users', user.uid), docSnap => {
+            if (docSnap.exists()) document.getElementById('nav-wallet-display').innerText = '$' + docSnap.data().walletBalance.toFixed(2);
+        });
     });
 </script>
-
 </body>
 </html>
