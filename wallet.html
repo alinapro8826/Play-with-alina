@@ -4,24 +4,89 @@
 <title>Wallet - Play with Alina</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
 <div class="logo">💰 Wallet</div>
 </header>
 
+
 <section class="hero">
+
 <h1>Wallet Balance</h1>
 
-<h2>$0.00</h2>
+<h2 id="balance">$0.00</h2>
 
-<a class="btn">Add Money</a>
+<button class="btn" id="addMoney">Add Money</button>
 
 <br><br>
 
-<a class="btn">Withdraw</a>
+<button class="btn" id="withdraw">Withdraw</button>
 
 </section>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+authDomain: "playwithalina-d7bb3.firebaseapp.com",
+projectId: "playwithalina-d7bb3",
+storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+messagingSenderId: "18244211359",
+appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+const user = auth.currentUser;
+
+
+if(user){
+
+const userRef = doc(db,"users",user.uid);
+
+const snap = await getDoc(userRef);
+
+
+if(snap.exists()){
+
+let coins = snap.data().coins || 0;
+
+document.getElementById("balance").innerHTML = "$" + coins;
+
+}
+
+}
+
+
+document.getElementById("addMoney").onclick = async()=>{
+
+alert("Add Money system coming soon");
+
+};
+
+
+document.getElementById("withdraw").onclick = async()=>{
+
+alert("Withdraw request coming soon");
+
+};
+
+
+</script>
 
 </body>
 </html>
