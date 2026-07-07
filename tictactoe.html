@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Cash - Earn USD</title>
+    <style>
+        body { background-color: #0f0f12; color: #ffffff; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .game-card { background: #1a1a24; max-width: 450px; margin: 0 auto; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0, 255, 102, 0.2); }
+        h1 { color: #00ff66; margin-bottom: 5px; }
+        .balance-badge { background: #252538; padding: 8px 15px; border-radius: 20px; display: inline-block; margin-bottom: 15px; font-weight: bold; color: #ffcc00; }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 10px; justify-content: center; margin: 20px auto; pointer-events: none; opacity: 0.5; }
+        .cell { width: 100px; height: 100px; background: #111; border: 2px solid #333; border-radius: 8px; font-size: 36px; font-weight: bold; line-height: 100px; cursor: pointer; color: #fff; transition: 0.2s; }
+        .cell:hover { background: #222; border-color: #00ff66; }
+        .btn { background: #00ff66; color: #000; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #00cc52; box-shadow: 0 0 15px #00ff66; }
+        .btn:disabled { background: #444; color: #888; cursor: not-allowed; box-shadow: none; }
+        #status-board { font-size: 20px; margin: 15px 0; color: #00ffff; height: 30px; }
+    </style>
+</head>
+<body>
 
+<div class="game-card">
+    <h1>❌ Tic-Tac-Toe Cash ⭕</h1>
+    <div class="balance-badge">Your Wallet: $<span id="wallet-val">0.00</span></div>
+    <div id="status-board">Click Play to Start!</div>
+    
+    <!-- Game Board Grid -->
+    <div class="board" id="game-board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+    </div>
+    
+    <button class="btn" id="start-btn">Play Game (Entry Fee: $0.10)</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getFirestore, doc, onSnapshot, getDoc, updateDoc, addDoc, collection, serverTimestamp, increment } from "https://gstatic.com";
+    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
+
+    // Linked with your project 'playwithalina-d7bb3'
+    const firebaseConfig = {
+        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+        authDomain: "://firebaseapp.com",
+        projectId: "playwithalina-d7bb3",
+        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+        messagingSenderId: "18244211359",
+        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let boardState = ["", "", "", "", "", "", "", "", ""];
+    let isGameActive = false;
+    const cells = document.querySelectorAll('.cell');
+    const boardElement = document.getElementById('game-board');
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            onSnapshot(doc(db, 'users', user.uid), docSnap => {
+                if (docSnap.exists()) {
+                    let balance = docSnap.data().walletBalance || 0;
+                    document.getElementById('wallet-val').innerText = balance.toFixed(2);
+                }
+            });
+        }
+    });
+
+    document.getElementById('start-btn').addEventListener('click', payAndStartGame);
+
+    async function payAndStartGame() {
+        const user = auth.currentUser;
+        if (!user) return alert("Please Login First!");
+
+        const userRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(userRef);
+        const currentBalance = docSnap.data().walletBalance || 0;
+        const entryFee = 0.10;
+
+        if (currentBalance < entryFee) return alert("Insufficient Funds! Please deposit money.");
+
+        await updateDoc(userRef, { walletBalance: currentBalance - entryFee });
+        await addDoc(collection(db, 'transactions'), {
+            userId: user.uid, type: 'Tic-Tac-Toe Entry', amount: entryFee, currency: 'USD', status: 'success', timestamp: serverTimestamp()
+        });
+
+        document.getElementById('start-btn').disabled = true;
+        resetGame();
+    }
+
+    function resetGame() {
+        boardState = ["", "", "", "", "", "", "", "", ""];
+        isGameActive = true;
+        boardElement.style.pointerEvents = "auto";
+        boardElement.style.opacity = "1";
+        document.getElementById('status-board').innerText = "Your Turn (X)";
+        cells.forEach(cell => { cell.innerText = ""; cell.style.color = "#fff"; });
+    }
+
+    cells.forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            const index = e.target.getAttribute('data-index');
+            if (boardState[index] !== "" || !isGameActive) return;
+
+            makeMove(index, "X", "#00ff66");
+            if (checkWin("X")) return endGameResult("win");
+            if (boardState.every(cell => cell !== "")) return endGameResult("draw");
+
+            // Bot Turn (O) after a slight delay
+            document.getElementById('status-board').innerText = "Bot is thinking...";
+            boardElement.style.pointerEvents = "none";
+            setTimeout(botMove, 500);
+        });
+    });
+
+    function makeMove(index, player, color) {
+        boardState[index] = player;
+        cells[index].innerText = player;
+        cells[index].style.color = color;
+    }
+
+    function botMove() {
+        if (!isGameActive) return;
+        let emptyCells = [];
+        boardState.forEach((val, idx) => { if (val === "") emptyCells.push(idx); });
+        
+        if (emptyCells.length > 0) {
+            let randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            makeMove(randomIndex, "O", "#ff3c00");
+            if (checkWin("O")) return endGameResult("lose");
+            if (boardState.every(cell => cell !== "")) return endGameResult("draw");
+            
+            document.getElementById('status-board').innerText = "Your Turn (X)";
+            boardElement.style.pointerEvents = "auto";
+        }
+    }
+
+    function checkWin(player) {
+        const winConditions = [, [3, 4, 5], [6, 7, 8],
+, [1, 4, 7], [2, 5, 8],
+, [2, 4, 6]
+        ];
+        return winConditions.some(condition => {
+            return condition.every(index => boardState[index] === player);
+        });
+    }
+
+    async function endGameResult(result) {
+        isGameActive = false;
+        boardElement.style.pointerEvents = "none";
+        document.getElementById('start-btn').disabled = false;
+        const user = auth.currentUser;
+
+        if (result === "win") {
+            const prize = 0.25;
+            document.getElementById('status-board').innerText = "🎉 You Won $0.25!";
+            alert("Congratulations! You beat the bot and won $0.25!");
+            
+            await updateDoc(doc(db, 'users', user.uid), { walletBalance: increment(prize) });
+            await addDoc(collection(db, 'transactions'), {
+                userId: user.uid, type: 'Tic-Tac-Toe Win', amount: prize, currency: 'USD', status: 'success', timestamp: serverTimestamp()
+            });
+        } else if (result === "lose") {
+            document.getElementById('status-board').innerText = "💀 Bot Won! Try Again.";
+            alert("Game Over! Bot won this round.");
+        } else {
+            document.getElementById('status-board').innerText = "🤝 It's a Tie / Draw!";
+            alert("Match Draw! Entry fee was deducted.");
+        }
+    }
+</script>
+</body>
+</html>
