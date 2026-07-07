@@ -1,1 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Cash Game - Earn USD</title>
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 
+    <style>
+        body {
+            background-color: #0f0f12;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-card {
+            background: #1a1a24;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        }
+        h1 { color: #00ff66; margin-bottom: 5px; }
+        .balance-badge {
+            background: #252538;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        canvas {
+            background: #000;
+            display: block;
+            margin: 15px auto;
+            border: 3px solid #00ff66;
+            border-radius: 8px;
+        }
+        .btn {
+            background: #00ff66;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #00cc52; box-shadow: 0 0 15px #00ff66; }
+        .btn:disabled { background: #444; color: #888; cursor: not-allowed; box-shadow: none; }
+        #score-board { font-size: 20px; margin: 10px 0; color: #00ffff; }
+    </style>
+</head>
+<body>
+
+<div class="game-card">
+    <h1>🐍 Snake USD Game</h1>
+    <div class="balance-badge">Your Wallet: $<span id="wallet-val">0.00</span></div>
+    
+    <div id="score-board">Score: 0 | Target to Win: 15</div>
+    
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    
+    <button class="btn" id="start-btn" onclick="payAndStartGame()">Play Game (Entry Fee: $0.20)</button>
+</div>
+
+<script>
+    // 🔥 APNA FIREBASE CONFIG YAHAN DIJIYE
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const grid = 20;
+    let snake = [{x: 160, y: 160}];
+    let dx = grid, dy = 0;
+    let food = {x: 300, y: 300};
+    let score = 0;
+    let gameInterval = null;
+    let isGameRunning = false;
+
+    // Wallet Balance Check in Dollars
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            db.collection('users').doc(user.uid).onSnapshot(doc => {
+                if (doc.exists) {
+                    let balance = doc.data().walletBalance || 0;
+                    document.getElementById('wallet-val').innerText = balance.toFixed(2);
+                }
+            });
+        }
+    });
+
+    // Pay Fee Logic ($0.20)
+    async function payAndStartGame() {
+        const user = auth.currentUser;
+        if (!user) return alert("Please Login!");
+
+        const userRef = db.collection('users').doc(user.uid);
+        const doc = await userRef.get();
+        const currentBalance = doc.data().walletBalance || 0;
+        const entryFee = 0.20; // $0.20 Dollar
+
+        if (currentBalance < entryFee) {
+            alert("Insufficient Funds! Please request admin to deposit dollars.");
+            return;
+        }
+
+        // Deduct Dollar from Firebase
+        await userRef.update({ walletBalance: currentBalance - entryFee });
+        
+        await db.collection('transactions').add({
+            userId: user.uid,
+            type: 'Snake Game Entry',
+            amount: entryFee,
+            currency: 'USD',
+            status: 'success',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById('start-btn').disabled = true;
+        resetGame();
+        isGameRunning = true;
+        gameInterval = setInterval(mainGameLoop, 100);
+    }
+
+    function resetGame() {
+        snake = [{x: 160, y: 160}];
+        dx = grid; dy = 0; score = 0;
+        document.getElementById('score-board').innerText = "Score: 0 | Target: 15";
+        generateFood();
+    }
+
+    function mainGameLoop() {
+        if (hasGameEnded()) {
+            clearInterval(gameInterval);
+            isGameRunning = false;
+            document.getElementById('start-btn').disabled = false;
+            processGameResult();
+            return;
+        }
+        clearCanvas(); drawFood(); moveSnake(); drawSnake();
+    }
+
+    function clearCanvas() { ctx.fillStyle = "#000000"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    function drawSnake() { ctx.fillStyle = '#00ff66'; snake.forEach(part => ctx.fillRect(part.x, part.y, grid-2, grid-2)); }
+    function moveSnake() {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+            score += 1;
+            document.getElementById('score-board').innerText = `Score: ${score} | Target: 15`;
+            generateFood();
+        } else { snake.pop(); }
+    }
+    function generateFood() {
+        food.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
+        food.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
+    }
+    function drawFood() { ctx.fillStyle = '#ff0055'; ctx.fillRect(food.x, food.y, grid-2, grid-2); }
+    function hasGameEnded() {
+        for (let i = 4; i < snake.length; i++) {
+            if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+        }
+        return snake[0].x < 0 || snake[0].x >= canvas.width || snake[0].y < 0 || snake[0].y >= canvas.height;
+    }
+
+    document.addEventListener("keydown", event => {
+        if (!isGameRunning) return;
+        if (event.keyCode === 37 && dx === 0) { dx = -grid; dy = 0; }
+        if (event.keyCode === 38 && dy === 0) { dx = 0; dy = -grid; }
+        if (event.keyCode === 39 && dx === 0) { dx = grid; dy = 0; }
+        if (event.keyCode === 40 && dy === 0) { dx = 0; dy = grid; }
+    });
+
+    // Reward Logic in Dollars ($0.50 Win)
+    async function processGameResult() {
+        const user = auth.currentUser;
+        const targetScore = 15;
+        const winningPrize = 0.50; // $0.50 Dollar Win
+
+        if (score >= targetScore) {
+            alert(`🎉 Congratulations! You won $${winningPrize}!`);
+            const userRef = db.collection('users').doc(user.uid);
+            await userRef.update({
+                walletBalance: firebase.firestore.FieldValue.increment(winningPrize)
+            });
+
+            await db.collection('transactions').add({
+                userId: user.uid,
+                type: 'Snake Game Win',
+                amount: winningPrize,
+                currency: 'USD',
+                status: 'success',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        } else {
+            alert(`Game Over! Your score: ${score}. Reach 15 to win cash.`);
+        }
+    }
+</script>
+</body>
+</html>
