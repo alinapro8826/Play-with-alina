@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adult Spin Wheel</title>
+    <style>
+        body { background: #0c0714; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .box { background: #160d29; max-width: 380px; margin: 20px auto; padding: 20px; border-radius: 15px; border: 2px solid #ff007f; }
+        .wheel-container { position: relative; margin: 30px auto; width: 220px; height: 220px; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #00ffcc; background: conic-gradient(#ff007f 0% 25%, #7f00ff 25% 50%, #ff4757 50% 75%, #00ffcc 75% 100%); transition: transform 3s cubic-bezier(0.1, 1, 0.1, 1); }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 30px; z-index: 10; }
+        .btn { background: linear-gradient(45deg, #ff007f, #7f00ff); color: #fff; border: none; padding: 12px 35px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 20px; box-shadow: 0 0 15px #ff007f; }
+        #result { font-size: 18px; margin-top: 25px; color: #00ffcc; font-weight: bold; min-height: 40px; }
+    </style>
+</head>
+<body>
+    <a href="games.html" style="color:#aaa; text-decoration:none;">← Back to Vegas</a>
+    <div class="box">
+        <h2>🎡 CASINO ADULT SPIN</h2>
+        <p>Spin the bottle wheel for extreme player dares!</p>
+        
+        <div class="wheel-container">
+            <div class="pointer">▼</div>
+            <div class="wheel" id="wheel"></div>
+        </div>
+
+        <button class="btn" onclick="spinWheel()">SPIN FOR DARINGS</button>
+        <div id="result">Click the button to spin!</div>
+    </div>
+
+    <script>
+        const tasks = [
+            "💋 KISS DARE: Send a virtual kiss audio to your last matched profile!",
+            "🔥 TRUTH BOLD: Reveal your wildest dream secretly in the dating chatroom.",
+            "💬 FLIRT MODE: Compliment the host with the most smooth pickup line you know.",
+            "🃏 CARD BET: Double your next stake amount in the 3 Patti Live Room!"
+        ];
+        let currentRotation = 0;
+        function spinWheel() {
+            currentRotation += Math.floor(Math.random() * 360) + 1440;
+            document.getElementById("wheel").style.transform = `rotate(${currentRotation}deg)`;
+            document.getElementById("result").innerText = "Spinning the Wheel...";
+            
+            setTimeout(() => {
+                const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+                document.getElementById("result").innerText = randomTask;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
