@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Play with Alina</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<header>
+<div class="logo">🛠 Admin Panel</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="wallet.html">Wallet</a>
+<a href="games.html">Games</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>Play with Alina Admin</h1>
+
+<p>Welcome Admin</p>
+
+<div class="game-card">
+<h2>Total Users</h2>
+<p id="users">Loading...</p>
+</div>
+
+<div class="game-card">
+<h2>Total Wallets</h2>
+<p>Loading...</p>
+</div>
+
+<div class="game-card">
+<h2>Deposit Requests</h2>
+<p>Coming Soon</p>
+</div>
+
+<div class="game-card">
+<h2>Withdraw Requests</h2>
+<p>Coming Soon</p>
+</div>
+
+</section>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+authDomain: "playwithalina-d7bb3.firebaseapp.com",
+projectId: "playwithalina-d7bb3",
+storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+messagingSenderId: "18244211359",
+appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadUsers(){
+const snap = await getDocs(collection(db,"users"));
+document.getElementById("users").innerHTML = snap.size;
+}
+
+loadUsers();
+
+</script>
+
+</body>
+</html>
