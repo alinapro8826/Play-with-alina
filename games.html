@@ -3,60 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Games - Play with Alina</title>
-<link rel="stylesheet" href="style.css">
+<title>Games Arena - Alina Vegas Pro</title>
+<!-- FontAwesome for Premium Icons -->
+<link rel="stylesheet" href="https://cloudflare.com">
+<style>
+    body {
+        background: radial-gradient(circle at center, #140522 0%, #05010a 100%);
+        color: #ffffff;
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Unified Premium Navbar Layout */
+    header {
+        background: rgba(10, 2, 18, 0.95);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        border-bottom: 3px solid #ff0077;
+        box-shadow: 0 0 20px rgba(255, 0, 119, 0.4);
+    }
+    .logo {
+        font-size: 24px;
+        font-weight: 900;
+        color: #00ffff;
+        text-shadow: 0 0 10px #00ffff;
+        letter-spacing: 1px;
+    }
+    nav {
+        display: flex;
+        align-items: center;
+    }
+    nav a {
+        color: #ddd;
+        text-decoration: none;
+        margin: 0 12px;
+        font-size: 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+    nav a:hover { color: #ff0077; text-shadow: 0 0 10px #ff0077; }
+    
+    .deposit-blink {
+        color: #ffcc00 !important;
+        border: 1px solid #ffcc00;
+        padding: 6px 14px;
+        border-radius: 4px;
+        animation: neonBlink 1.5s infinite alternate;
+    }
+    @keyframes neonBlink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 10px #ffcc00; } }
+    
+    .nav-wallet-status {
+        background: #1c0b30;
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: #00ff66;
+        font-weight: bold;
+        border: 1px solid #00ff66;
+        font-size: 14px;
+    }
+    
+    .hero { text-align: center; padding: 50px 20px; background-color: rgba(12, 2, 23, 0.8); }
+    .hero h1 { font-size: 48px; color: #ff0077; text-shadow: 0 0 15px #ff0077; margin: 0 0 10px 0; }
+    .hero p { color: #aaa; margin: 0; font-size: 16px; }
+    
+    /* Casino Grid Styles matching exact layout pattern */
+    .casino-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+    
+    .casino-card { 
+        background: #0d0217; 
+        border: 1px solid #ff0077; 
+        border-radius: 12px; 
+        padding: 25px 20px; 
+        text-align: center; 
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .casino-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 15px rgba(255, 0, 119, 0.5);
+    }
+    .casino-card h2 { color: #ffcc00; font-size: 20px; margin: 10px 0; }
+    .casino-card p { color: #b5b5c3; font-size: 14px; line-height: 1.5; margin: 12px 0; }
+    
+    .btn-bet { 
+        background: linear-gradient(90deg, #ff0077, #ff5500); 
+        color: #fff; 
+        padding: 10px 24px; 
+        text-decoration: none; 
+        font-weight: bold; 
+        border-radius: 20px; 
+        display: inline-block; 
+        border: none; 
+        cursor: pointer; 
+        width: 80%; 
+        font-size: 14px;
+        transition: opacity 0.2s; 
+    }
+    .btn-bet:hover { opacity: 0.9; }
+
+    /* Locked card layout mechanics */
+    .locked-card {
+        border: 1px dashed #444 !important;
+        background: rgba(13, 2, 23, 0.4);
+        opacity: 0.6;
+    }
+    .locked-card h2 { color: #888 !important; }
+    .btn-locked {
+        background: #333 !important;
+        color: #777 !important;
+        cursor: not-allowed;
+    }
+</style>
 </head>
 <body>
 
 <header>
-<div class="logo">🎮 Play with Alina</div>
-<nav>
-<a href="index.html">Home</a>
-<a href="login.html">Login</a>
-<a href="signup.html">Sign Up</a>
-<a href="wallet.html">Wallet</a>
-</nav>
+    <div class="logo">🎰 ALINA VEGAS</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="Deposit.html" class="deposit-blink">Add Funds</a>
+        <a href="Adminaprooval.html">Owner Panel</a>
+    </nav>
+    <div class="nav-wallet-status"><i class="fa-solid fa-wallet"></i> Wallet: <span id="nav-wallet-display">$0.00</span></div>
 </header>
 
 <section class="hero">
-<h1>Choose Your Game</h1>
-<p>More games are coming soon!</p>
+    <h1>GAMES ARENA</h1>
+    <p>⚡ Choose your board, place entry chips and multiply balance ⚡</p>
 </section>
 
-<section class="games">
+<section class="casino-grid">
+    <!-- Active Game 1 -->
+    <div class="casino-card">
+        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-staff-snake"></i></div>
+        <h2>🐍 Snake Arena Pro</h2>
+        <p>Skill arcade challenge. Reach a target score of 15 to secure tokens.</p>
+        <a href="snake.html" class="btn-bet">Play Game (Entry: $0.20)</a>
+    </div>
 
-<div class="game-card">
-<h2>🐍 Snake</h2>
-<p>Coming Soon</p>
-</div>
+    <!-- Active Game 2 -->
+    <div class="casino-card">
+        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-table-cells"></i></div>
+        <h2>⭕ Tic Tac Toe Arena</h2>
+        <p>High stakes coordination sheet grid. Beat the bot matrix to cashout.</p>
+        <a href="tictactoe.html" class="btn-bet">Start Match (Entry: $0.10)</a>
+    </div>
 
-<div class="game-card">
-<h2>⭕ Tic Tac Toe</h2>
-<p>Coming Soon</p>
-</div>
+    <!-- Active Game 3 -->
+    <div class="casino-card">
+        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-hand-fist"></i></div>
+        <h2>✊ Rock Paper Scissors</h2>
+        <p>Classic tactical match. Predict bot patterns and win instant prize pools.</p>
+        <a href="RPS.html" class="btn-bet">Play RPS (Entry: $0.10)</a>
+    </div>
+    
+    <!-- Locked Game 4 -->
+    <div class="casino-card locked-card">
+        <div style="font-size: 36px; color: #555;"><i class="fa-solid fa-brain"></i></div>
+        <h2>🧠 Memory Game</h2>
+        <p>Flip and match premium card assets under a strict timer configuration.</p>
+        <button class="btn-bet btn-locked" disabled>Coming Soon</button>
+    </div>
 
-<div class="game-card">
-<h2>🧠 Memory Game</h2>
-<p>Coming Soon</p>
-</div>
+    <!-- Locked Game 5 -->
+    <div class="casino-card locked-card">
+        <div style="font-size: 36px; color: #555;"><i class="fa-solid fa-square-poll-vertical"></i></div>
+        <h2>🎯 2048 Blocks</h2>
+        <p>Merge identical cryptographic value cards until you compile the 2048 asset.</p>
+        <button class="btn-bet btn-locked" disabled>Coming Soon</button>
+    </div>
 
-<div class="game-card">
-<h2>🎯 2048</h2>
-<p>Coming Soon</p>
-</div>
-
-<div class="game-card">
-<h2>🏎 Racing</h2>
-<p>Coming Soon</p>
-</div>
-
-<div class="game-card">
-<h2>🧩 Puzzle</h2>
-<p>Coming Soon</p>
-</div>
-
+    <!-- Locked Game 6 -->
+    <div class="casino-card locked-card">
+        <div style="font-size: 36px; color: #555;"><i class="fa-solid fa-car-burst"></i></div>
+        <h2>🧩 Pro Puzzle Arena</h2>
+        <p>Assemble split graphic segments inside casino grid bounds securely.</p>
+        <button class="btn-bet btn-locked" disabled>Coming Soon</button>
+    </div>
 </section>
 
-<script src="script.js"></script>
+<script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getFirestore, doc, onSnapshot } from "https://gstatic.com";
+    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc",
+        authDomain: "://firebaseapp.com",
+        projectId: "playwithalina-d7bb3",
+        storageBucket: "playwithalina-d7bb3.firebasestorage.app",
+        messagingSenderId: "18244211359",
+        appId: "1:18244211359:web:d10be09d3e9fbb184c88aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            onSnapshot(doc(db, 'users', user.uid), docSnap => {
+                if (docSnap.exists()) {
+                    let balance = docSnap.data().walletBalance || 0;
+                    document.getElementById('nav-wallet-display').innerText = '$' + balance.toFixed(2);
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
