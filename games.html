@@ -1,128 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Games Arena - Alina Vegas</title>
-<link rel="stylesheet" href="https://cloudflare.com">
-<style>
-    body { background: radial-gradient(circle at center, #140522 0%, #05010a 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
-    header { background: rgba(10, 2, 18, 0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; border-bottom: 3px solid #ff0077; box-shadow: 0 0 20px rgba(255, 0, 119, 0.4); }
-    .logo { font-size: 24px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px #00ffff; letter-spacing: 1px; }
-    nav a { color: #ddd; text-decoration: none; margin: 0 12px; font-size: 15px; font-weight: bold; text-transform: uppercase; }
-    .nav-wallet-status { background: #1c0b30; padding: 8px 16px; border-radius: 20px; color: #00ff66; font-weight: bold; border: 1px solid #00ff66; font-size: 14px; }
-    .hero { text-align: center; padding: 40px 20px; background-color: rgba(12, 2, 23, 0.8); }
-    .hero h1 { font-size: 44px; color: #ff0077; text-shadow: 0 0 15px #ff0077; margin: 0 0 5px 0; }
-    .casino-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-    .casino-card { background: #0d0217; border: 1px solid #ff0077; border-radius: 12px; padding: 25px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); transition: 0.3s; }
-    .casino-card:hover { transform: translateY(-4px); box-shadow: 0 0 15px rgba(255, 0, 119, 0.5); }
-    .casino-card h2 { color: #ffcc00; font-size: 20px; margin: 10px 0; }
-    .casino-card p { color: #b5b5c3; font-size: 14px; line-height: 1.5; margin: 12px 0; }
-    .btn-bet { background: linear-gradient(90deg, #ff0077, #ff5500); color: #fff; padding: 10px 24px; text-decoration: none; font-weight: bold; border-radius: 20px; display: inline-block; border: none; cursor: pointer; width: 80%; font-size: 14px; text-transform: uppercase; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Zone - Alina Games</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Play With Alina - Games Dashboard</h1>
+            <div class="wallet-box">Wallet Balance: <span id="wallet-balance">Loading...</span></div>
+        </header>
 
-<header>
-    <div class="logo">🎰 ALINA VEGAS</div>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="games.html">Games</a>
-        <a href="dating.html" style="color: #00ffff;">💖 Dating Hub</a>
-        <a href="Deposit.html">Add Funds</a>
-    </nav>
-    <div class="nav-wallet-status"><i class="fa-solid fa-wallet"></i> Wallet: <span id="nav-wallet-display">$0.00</span></div>
-</header>
+        <main class="games-grid">
+            <!-- Game 1 -->
+            <div class="game-card">
+                <h3>Snake Game</h3>
+                <p>Classic arcade snake game.</p>
+                <a href="snake.html" class="play-btn">Start Game</a>
+            </div>
 
-<section class="hero">
-    <h1>SUPREME GAMES ARENA</h1>
-    <p>Place entry tokens to launch high-speed games instantly</p>
-</section>
+            <!-- Game 2 -->
+            <div class="game-card">
+                <h3>Tic Tac Toe</h3>
+                <p>Play X and O against logic.</p>
+                <a href="tictactoe.html" class="play-btn">Start Game</a>
+            </div>
 
-<section class="casino-grid">
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-car"></i></div>
-        <h2>🏎️ Vegas Neon Racing</h2>
-        <p>High speed Retro Car simulation game loop. Dodge traffic and win.</p>
-        <button class="btn-bet" id="race-btn">Play Game</button>
+            <!-- Game 3 -->
+            <div class="game-card">
+                <h3>2048 Puzzle</h3>
+                <p>Join the numbers to win.</p>
+                <a href="2048.html" class="play-btn">Start Game</a>
+            </div>
+
+            <!-- Dating Navigation -->
+            <div class="game-card dating-card">
+                <h3>Dating & Matching</h3>
+                <p>Find matches and connect instantly.</p>
+                <a href="dating.html" class="play-btn dating-btn">Open Dating</a>
+            </div>
+        </main>
     </div>
 
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-circle-dot"></i></div>
-        <h2>🎱 Pro 8-Ball Pool</h2>
-        <p>Premium web cue sports simulator. Swipe angles to clear the table tracks.</p>
-        <button class="btn-bet" id="pool-btn">Play Game</button>
-    </div>
-
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-hand-fist"></i></div>
-        <h2>🥷 Street Fighting Combo</h2>
-        <p>Retro arcade face-to-face combat template. Smash controls to win.</p>
-        <button class="btn-bet" id="fight-btn">Play Game</button>
-    </div>
-
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-gun"></i></div>
-        <h2>🔫 PUBG Battleground Web</h2>
-        <p>Voxiom Multiplayer FPS zone shooter loop module configuration.</p>
-        <button class="btn-bet" id="pubg-btn">Play Game</button>
-    </div>
-
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-staff-snake"></i></div>
-        <h2>🐍 Classic Snake Pro</h2>
-        <p>Native arcade module. Reach 15 points score target to execute payout.</p>
-        <a href="snake.html" class="btn-bet">Play Game</a>
-    </div>
-
-    <div class="casino-card">
-        <div style="font-size: 36px; color: #ffcc00;"><i class="fa-solid fa-table-cells"></i></div>
-        <h2>⭕ Tic Tac Toe Arena</h2>
-        <p>Coordinate grid system. Complete patterns to win instant tokens.</p>
-        <a href="tictactoe.html" class="btn-bet">Start Match</a>
-    </div>
-</section>
-
-<script type="module">
-    import { initializeApp } from "https://gstatic.com";
-    import { getFirestore, doc, onSnapshot, getDoc, updateDoc, addDoc, collection, serverTimestamp } from "https://gstatic.com";
-    import { getAuth, onAuthStateChanged } from "https://gstatic.com";
-
-    const firebaseConfig = { apiKey: "AIzaSyCjZk8A8tJvUf4YmIkAy-g3_5YqhvW-3Bc", authDomain: "://firebaseapp.com", projectId: "playwithalina-d7bb3", storageBucket: "playwithalina-d7bb3.firebasestorage.app", messagingSenderId: "18244211359", appId: "1:18244211359:web:d10be09d3e9fbb184c88aa" };
-    const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
-
-    async function launchGame(url, fee) {
-        const user = auth.currentUser; 
-        if(!user) return alert("Pehle login.html se login karein!");
-        
-        const userRef = doc(db, 'users', user.uid); 
-        const docSnap = await getDoc(userRef);
-        const currentBalance = docSnap.data().walletBalance || 0;
-        
-        if(currentBalance < fee) return alert("❌ Insufficient Funds!");
-
-        if(confirm(`Kya aap $${fee} ka entry fee dekar game chalana chahte hain?`)) {
-            try {
-                await updateDoc(userRef, { walletBalance: currentBalance - fee });
-                window.open(url, '_blank');
-            } catch(e) { alert("Error: " + e.message); }
-        }
-    }
-
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            onSnapshot(doc(db, 'users', user.uid), docSnap => {
-                if (docSnap.exists()) {
-                    document.getElementById('nav-wallet-display').innerText = '$' + (docSnap.data().walletBalance || 0).toFixed(2);
-                }
-            });
-        }
-    });
-
-    document.getElementById('race-btn').addEventListener('click', () => launchGame('https://brossarddesign.com', 0.20));
-    document.getElementById('pool-btn').addEventListener('click', () => launchGame('https://9ball-pool.com', 0.15));
-    document.getElementById('fight-btn').addEventListener('click', () => launchGame('https://retrogames.cc', 0.25));
-    document.getElementById('pubg-btn').addEventListener('click', () => launchGame('https://voxiom.io', 0.30));
-</script>
+    <!-- Firebase Connections Javascript -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
