@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Patti Real Live - Alina Vegas</title>
+    <style>
+        body { background: #0b5345; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .table { background: #117a65; max-width: 500px; margin: 30px auto; padding: 30px; border-radius: 50% / 40%; border: 8px solid #d4af37; box-shadow: 0 0 20px #000; }
+        .card-hand { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .poker-card { background: #fff; color: #000; width: 60px; height: 90px; border-radius: 5px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 5px rgba(0,0,0,0.3); }
+        .red { color: #eb4034; }
+        .btn { background: #d4af37; color: #000; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 16px; cursor: pointer; margin: 10px; }
+    </style>
+</head>
+<body>
+    <a href="games.html" style="color: #fff; text-decoration: none;">← Exit Table</a>
+    <h1>🃏 TEEN PATTI LIVE CASINO</h1>
+    <div class="table">
+        <h3>Dealer's Hand (Blind)</h3>
+        <div class="card-hand">
+            <div class="poker-card">🎴</div>
+            <div class="poker-card">🎴</div>
+            <div class="poker-card">🎴</div>
+        </div>
+        <hr style="border-color: #d4af37;">
+        <h3>Your Cards</h3>
+        <div id="your-hand" class="card-hand">
+            <div class="poker-card red">A♥️</div>
+            <div class="poker-card">K♠️</div>
+            <div class="poker-card red">Q♦️</div>
+        </div>
+        <p id="status">Current Bet: ₹10</p>
+        <button class="btn" onclick="deal()">Chaal (Bet)</button>
+        <button class="btn" style="background:#cc2e2e; color:#fff;" onclick="alert('You Folded!')">Pack (Fold)</button>
+    </div>
+    <script>
+        const cards = ['A♥️', 'K♠️', 'Q♦️', 'J♣️', '10♥️', '9♠️', 'A♣️', 'K♦️'];
+        function deal() {
+            let h = document.getElementById("your-hand");
+            h.innerHTML = '';
+            for(let i=0; i<3; i++) {
+                let randomCard = cards[Math.floor(Math.random()*cards.length)];
+                let isRed = randomCard.includes('♥️') || randomCard.includes('♦️') ? 'red' : '';
+                h.innerHTML += `<div class="poker-card ${isRed}">${randomCard}</div>`;
+            }
+            document.getElementById("status").innerText = "Chaal Placed! Testing bot hand...";
+        }
+    </script>
+</body>
+</html>
