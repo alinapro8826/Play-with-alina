@@ -3,39 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alina Dating Matcher</title>
+    <title>Alina Vegas - Premium Dating</title>
     <style>
-        body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
-        .card { background: #222; max-width: 350px; margin: auto; padding: 20px; border-radius: 15px; border: 2px solid #ff007f; }
-        .img-box { width: 120px; height: 120px; border-radius: 50%; background: #333; margin: auto; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .btn { background: #ff007f; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin: 10px; cursor: pointer; }
+        body { background: #0f0c1b; color: #fff; font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .tinder-card { background: #1c1936; width: 340px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #ff007f; position: relative; }
+        .img-container { width: 100%; height: 380px; background: #333; position: relative; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .info-box { padding: 20px; background: linear-gradient(to top, #1c1936 80%, transparent); position: absolute; bottom: 0; width: 88%; }
+        .name { font-size: 24px; font-weight: bold; margin: 0; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 10px; height: 10px; background: #00ffcc; border-radius: 50%; display: inline-block; }
+        .bio { font-size: 14px; color: #b3b0d2; margin: 5px 0 0 0; }
+        .actions { display: flex; justify-content: space-around; padding: 15px; background: #131127; }
+        .btn { width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-dislike { background: #2c274c; color: #ff4757; }
+        .btn-like { background: #ff007f; color: #fff; box-shadow: 0 0 15px #ff007f; }
     </style>
 </head>
 <body>
-    <a href="games.html" style="color: #00ffcc; text-decoration: none; display: block; margin-bottom: 20px;">← Back to Games Dashboard</a>
-    <div class="card">
-        <div class="img-box" id="p-img">❤️</div>
-        <h2 id="p-name">Loading...</h2>
-        <p id="p-bio">Searching network...</p>
-        <button class="btn" style="background:#444;" onclick="showNext()">✕ Pass</button>
-        <button class="btn" onclick="showNext()">♥ Match</button>
+    <a href="games.html" style="color: #00ffcc; text-decoration: none; margin-bottom: 15px;">← Exit Dating Hub</a>
+    <div class="tinder-card">
+        <div class="img-container">
+            <img id="card-img" src="" alt="Profile">
+            <div class="info-box">
+                <h2 class="name" id="card-name">Loading... <span class="status-dot"></span></h2>
+                <p class="bio" id="card-bio">Searching nearby players...</p>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-dislike" onclick="swipe()">✕</button>
+            <button class="btn btn-like" onclick="swipe()">❤️</button>
+        </div>
     </div>
 
     <script>
-        const users = [
-            { n: "Alina, 22", b: "Active now. Love live premium casino and racing games!", i: "https://unsplash.com" },
-            { n: "Priya, 24", b: "Looking for multiplayer Chess and Pubg partners.", i: "https://unsplash.com" },
-            { n: "Sneha, 21", b: "8 Ball Pool champion. Challenge me anytime!", i: "https://unsplash.com" }
+        const matches = [
+            { n: "Alina, 22", b: "Live in Delhi. Love premium casino, card games and pool. Let's play together!", i: "https://unsplash.com" },
+            { n: "Priya, 24", b: "Casino manager & casual gamer. Challenge me in 3 Patti or Chess anytime.", i: "https://unsplash.com" },
+            { n: "Sneha, 21", b: "8 Ball Pool champion. High stakes player. Match me if you dare!", i: "https://unsplash.com" },
+            { n: "Riya, 23", b: "Looking for a gaming partner for late-night PUBG rooms.", i: "https://unsplash.com" }
         ];
-        let idx = 0;
-        function showNext() {
-            document.getElementById("p-name").innerText = users[idx].n;
-            document.getElementById("p-bio").innerText = users[idx].b;
-            document.getElementById("p-img").innerHTML = `<img src="${users[idx].i}">`;
-            idx = (idx + 1) % users.length;
+        let current = 0;
+        function swipe() {
+            current = (current + 1) % matches.length;
+            document.getElementById("card-img").src = matches[current].i;
+            document.getElementById("card-name").innerHTML = matches[current].n + ' <span class="status-dot"></span>';
+            document.getElementById("card-bio").innerText = matches[current].b;
         }
-        window.onload = showNext;
+        window.onload = swipe;
     </script>
 </body>
 </html>
