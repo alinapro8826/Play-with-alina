@@ -9,16 +9,11 @@
         body { background: radial-gradient(circle at center, #140522 0%, #05010a 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; text-align: center; }
         header { background: rgba(10, 2, 18, 0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; border-bottom: 3px solid #ff0077; box-shadow: 0 0 20px rgba(255, 0, 119, 0.4); }
         .logo { font-size: 24px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px #00ffff; letter-spacing: 1px; }
-        nav { display: flex; align-items: center; }
         nav a { color: #ddd; text-decoration: none; margin: 0 12px; font-size: 15px; font-weight: bold; text-transform: uppercase; }
-        nav a:hover { color: #ff0077; text-shadow: 0 0 10px #ff0077; }
-        .deposit-blink { color: #ffcc00 !important; border: 1px solid #ffcc00; padding: 6px 14px; border-radius: 4px; }
         .nav-wallet-status { background: #1c0b30; padding: 8px 16px; border-radius: 20px; color: #00ff66; font-weight: bold; border: 1px solid #00ff66; font-size: 14px; }
         .game-card { background: #0d0217; max-width: 440px; margin: 30px auto; padding: 25px 20px; border-radius: 15px; border: 1px solid #ff0077; box-shadow: 0 0 25px rgba(255, 0, 119, 0.2); }
-        h1 { color: #00ff66; margin: 0 0 5px 0; font-size: 26px; text-shadow: 0 0 10px rgba(0,255,102,0.3); }
-        canvas { background: #05010a; display: block; margin: 15px auto; border: 2px solid #00ff66; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
-        .btn { background: linear-gradient(90deg, #00ff66, #00cccc); color: #000; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; width: 90%; font-shadow: 0 4px 15px rgba(0, 255, 102, 0.3); }
-        #score-board { font-size: 18px; margin: 10px 0; color: #00ffff; font-weight: bold; }
+        canvas { background: #05010a; display: block; margin: 15px auto; border: 2px solid #00ff66; border-radius: 8px; }
+        .btn { background: linear-gradient(90deg, #00ff66, #00cccc); color: #000; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; width: 90%; }
         .controls-pad { display: grid; grid-template-columns: repeat(3, 60px); grid-template-rows: repeat(2, 50px); gap: 10px; justify-content: center; margin-top: 15px; }
         .ctrl-btn { background: #1c0b30; border: 1px solid #ff0077; color: #fff; border-radius: 8px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .up-btn { grid-column: 2; }
@@ -30,13 +25,13 @@
 <body>
 <header>
     <div class="logo">🎰 ALINA VEGAS</div>
-    <nav><a href="index.html">Home</a><a href="games.html">Games</a><a href="Deposit.html" class="deposit-blink">Add Funds</a><a href="Adminaprooval.html">Owner Panel</a></nav>
+    <nav><a href="index.html">Home</a><a href="games.html">Games</a><a href="Deposit.html">Add Funds</a></nav>
     <div class="nav-wallet-status"><i class="fa-solid fa-wallet"></i> Wallet: <span id="nav-wallet-display">$0.00</span></div>
 </header>
 <div class="game-card">
-    <h1>🐍 Snake Arena Pro</h1>
-    <div id="score-board">Score: 0 | Target to Win: 15</div>
-    <canvas id="gameCanvas" width="360" height="360"></canvas>
+    <h1 style="color:#00ff66;">🐍 Snake Arena Pro</h1>
+    <div id="score-board" style="margin:10px 0; color:#00ffff; font-weight:bold;">Score: 0 | Target to Win: 15</div>
+    <canvas id="gameCanvas" width="320" height="320"></canvas>
     <button class="btn" id="start-btn">Play Game (Entry Fee: $0.20)</button>
     <div class="controls-pad">
         <button class="ctrl-btn up-btn" id="ctrl-up"><i class="fa-solid fa-caret-up"></i></button>
@@ -45,6 +40,7 @@
         <button class="ctrl-btn right-btn" id="ctrl-right"><i class="fa-solid fa-caret-right"></i></button>
     </div>
 </div>
+
 <script type="module">
     import { initializeApp } from "https://gstatic.com";
     import { getFirestore, doc, onSnapshot, getDoc, updateDoc, addDoc, collection, serverTimestamp, increment } from "https://gstatic.com";
@@ -60,8 +56,7 @@
         if (user) {
             onSnapshot(doc(db, 'users', user.uid), docSnap => {
                 if (docSnap.exists()) {
-                    let balance = docSnap.data().walletBalance || 0;
-                    document.getElementById('nav-wallet-display').innerText = '$' + balance.toFixed(2);
+                    document.getElementById('nav-wallet-display').innerText = '$' + (docSnap.data().walletBalance || 0).toFixed(2);
                 }
             });
         }
@@ -69,15 +64,15 @@
 
     document.getElementById('start-btn').addEventListener('click', payAndStartGame);
     async function payAndStartGame() {
-        const user = auth.currentUser; if (!user) return alert("Please login via login.html first!");
+        const user = auth.currentUser; if (!user) return alert("Pehle login.html kholkar login karein!");
         const userRef = doc(db, 'users', user.uid); const docSnap = await getDoc(userRef);
         const currentBalance = docSnap.data().walletBalance || 0; const entryFee = 0.20;
-        if (currentBalance < entryFee) return alert("❌ Insufficient Funds! Please click 'Add Funds'.");
+        if (currentBalance < entryFee) return alert("❌ Insufficient Funds!");
 
         try {
             await updateDoc(userRef, { walletBalance: currentBalance - entryFee });
-            await addDoc(collection(db, 'transactions'), { userId: user.uid, type: 'Snake Game Entry', amount: entryFee, currency: 'USD', status: 'success', timestamp: serverTimestamp() });
-            document.getElementById('start-btn').disabled = true; resetGame(); isGameRunning = true; gameInterval = setInterval(mainGameLoop, 130);
+            await addDoc(collection(db, 'transactions'), { userId: user.uid, type: 'Snake Game Entry', amount: entryFee, status: 'success', timestamp: serverTimestamp() });
+            document.getElementById('start-btn').disabled = true; resetGame(); isGameRunning = true; gameInterval = setInterval(mainGameLoop, 150);
         } catch (err) { alert("Error: " + err.message); }
     }
 
@@ -91,9 +86,11 @@
     }
     function generateFood() { food.x = Math.floor(Math.random() * (canvas.width / grid)) * grid; food.y = Math.floor(Math.random() * (canvas.height / grid)) * grid; }
     function drawFood() { ctx.fillStyle = '#ff0055'; ctx.fillRect(food.x, food.y, grid-2, grid-2); }
+    
     function hasGameEnded() {
-        for (let i = 4; i < snake.length; i++) { if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true; }
-        return snake[0].x < 0 || snake[0].x >= canvas.width || snake[0].y < 0 || snake[0].y >= canvas.height;
+        if (snake[0].x < 0 || snake[0].x >= canvas.width || snake[0].y < 0 || snake[0].y >= canvas.height) return true;
+        for (let i = 1; i < snake.length; i++) { if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true; }
+        return false;
     }
 
     document.addEventListener("keydown", event => {
@@ -107,9 +104,9 @@
     document.getElementById('ctrl-right').addEventListener('click', () => { if(isGameRunning && dx === 0) { dx = grid; dy = 0; } });
 
     async function processGameResult() {
-        const user = auth.currentUser; const winningPrize = 0.50;
-        if (score >= 15) { alert(`🎉 You Won $${winningPrize}!`); await updateDoc(doc(db, 'users', user.uid), { walletBalance: increment(winningPrize) }); }
-        else { alert(`💥 Game Over! Score: ${score}. Reach 15 to win.`); }
+        const user = auth.currentUser;
+        if (score >= 15) { alert("🎉 You Won $0.50!"); await updateDoc(doc(db, 'users', user.uid), { walletBalance: increment(0.50) }); }
+        else { alert(`Game Over! Score: ${score}.`); }
     }
 </script>
 </body>
