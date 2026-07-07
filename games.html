@@ -93,18 +93,17 @@
 
     async function launchGame(url, fee) {
         const user = auth.currentUser; 
-        if(!user) return alert("⚠️ Pehle account login karein! login.html open kijiye.");
+        if(!user) return alert("Pehle login.html se login karein!");
         
         const userRef = doc(db, 'users', user.uid); 
         const docSnap = await getDoc(userRef);
         const currentBalance = docSnap.data().walletBalance || 0;
         
-        if(currentBalance < fee) return alert("❌ Wallet mein paise nahi hain! Add Funds par click karein.");
+        if(currentBalance < fee) return alert("❌ Insufficient Funds!");
 
-        if(confirm(`Kya aap $${fee} entry fee dekar game chalana chahte hain?`)) {
+        if(confirm(`Kya aap $${fee} ka entry fee dekar game chalana chahte hain?`)) {
             try {
                 await updateDoc(userRef, { walletBalance: currentBalance - fee });
-                await addDoc(collection(db, 'transactions'), { userId: user.uid, type: 'Premium Game Play', amount: fee, status: 'success', timestamp: serverTimestamp() });
                 window.open(url, '_blank');
             } catch(e) { alert("Error: " + e.message); }
         }
@@ -120,7 +119,6 @@
         }
     });
 
-    // Event Listeners instead of risky inline onclicks
     document.getElementById('race-btn').addEventListener('click', () => launchGame('https://brossarddesign.com', 0.20));
     document.getElementById('pool-btn').addEventListener('click', () => launchGame('https://9ball-pool.com', 0.15));
     document.getElementById('fight-btn').addEventListener('click', () => launchGame('https://retrogames.cc', 0.25));
