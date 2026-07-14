@@ -3,104 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alina Vegas VIP Pro</title>
-    
-    <!-- 💰 ADSTERRA ADS CODES CONNECTED 💰 -->
-    <script src="https://effectivecpmnetwork.com"></script>
-    <script src="https://effectivecpmnetwork.com"></script>
-
+    <title>Alina Vegas - Secure Deposit</title>
     <style>
-        /* 🎰 DIRECT CASINO DISCO BLINKING LIGHTS (Bina style.css ke chalega) 🎰 */
-        body { 
-            background: #0d0b18; 
-            color: #fff; 
-            font-family: sans-serif; 
-            margin: 0; 
-            padding: 20px;
-            animation: casinoDiscoBackground 4s infinite alternate;
+        body {
+            background: #0d0b18;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
         }
-        @keyframes casinoDiscoBackground {
-            0% { background: #0d0b18; }
-            50% { background: #1a052e; }
-            100% { background: #05142e; }
-        }
-        .header-panel { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(28, 25, 54, 0.9); 
-            padding: 15px; 
-            border-radius: 15px; 
-            border: 3px solid #ff007f;
+        .deposit-box {
+            background: #1c1936;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ff007f;
             box-shadow: 0 0 20px #ff007f;
-            animation: chasBujNeon 1s infinite alternate;
+            max-width: 340px;
+            width: 90%;
         }
-        @keyframes chasBujNeon {
-            0% { border-color: #ff007f; box-shadow: 0 0 10px #ff007f; }
-            100% { border-color: #00ffcc; box-shadow: 0 0 25px #00ffcc; }
+        .balance-glow {
+            font-size: 32px;
+            color: #00ffcc;
+            font-weight: bold;
+            text-shadow: 0 0 15px #00ffcc;
+            margin-bottom: 20px;
         }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
-        .card { background: #1c1936; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #7f00ff; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .card:hover { border-color: #ff007f; box-shadow: 0 0 15px #ff007f; }
-        .vip-tag { position: absolute; top: 5px; right: 5px; background: gold; color: #000; font-size: 9px; font-weight: bold; padding: 2px 5px; border-radius: 8px; }
-        .btn { display: inline-block; background: linear-gradient(45deg, #ff007f, #7f00ff); color: #fff; padding: 10px; text-decoration: none; border-radius: 20px; margin-top: 10px; font-size: 12px; font-weight: bold; width: 90%; border: none; cursor: pointer; text-transform: uppercase; }
-        .wallet { font-size: 16px; background: #000; padding: 6px 12px; border-radius: 20px; color: #00ffcc; font-weight: bold; text-shadow: 0 0 5px #00ffcc; }
-        
-        /* VIP Paywall Modal Window */
-        .vip-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; }
-        .modal-box { background: #1a0f2e; border: 2px solid gold; padding: 25px; border-radius: 20px; text-align: center; max-width: 290px; box-shadow: 0 0 25px gold; }
-        .pay-btn { background: linear-gradient(45deg, gold, #ffaa00); color: #000; font-weight: bold; padding: 12px 25px; font-size: 15px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
+        /* 🔥 Attract Text & Banner Styles */
+        .promo-banner {
+            background: linear-gradient(45deg, #ffaa00, #ff007f);
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+        .sub-promo {
+            font-size: 12px;
+            color: #ffaa00;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group input {
+            width: 85%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #7f00ff;
+            background: #0d0b18;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #ff007f;
+            box-shadow: 0 0 10px #ff007f;
+        }
+        .paypal-btn {
+            display: block;
+            width: 93%;
+            background: #0070ba;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 112, 186, 0.4);
+            transition: 0.2s;
+        }
+        .paypal-btn:hover {
+            background: #005ea6;
+            box-shadow: 0 0 15px #0070ba;
+        }
+        .notice {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Top Glow Header -->
-    <div class="header-panel">
-        <h2 style="margin:0; font-size:20px; color:#fff; text-shadow: 0 0 10px #ff007f;">🎰 ALINA VEGAS VIP</h2>
-        <div class="wallet">Wallet: <span id="wallet-balance">₹100</span></div>
-    </div>
-    
-    <!-- Games Framework Link Triggers -->
-    <h3 style="color: #ff007f; margin-top: 20px;">🔥 LIVE CASINO</h3>
-    <div class="grid">
-        <div class="card"><span class="vip-tag">18+ VIP</span><h3>🃏 3 Patti</h3><button onclick="openVipLock('teenpatti.html')" class="btn">Play Live</button></div>
-        <div class="card"><span class="vip-tag">18+ VIP</span><h3>🃏 Rummy</h3><button onclick="openVipLock('rummy.html')" class="btn">Play Live</button></div>
-        <div class="card"><h3>🎲 Casino Wheel</h3><a href="casino.html" class="btn">Spin Max</a></div>
-    </div>
+    <div class="deposit-box">
+        <!-- 🎯 Attracting Headlines -->
+        <div class="promo-banner">🔥 INSTANT RECHARGE BONUS ACTIVED! 🔥</div>
+        <h2 style="margin: 0 0 5px 0; color: gold;">Deposit Funds</h2>
+        <p class="sub-promo">⚡ Load Wallet Fast & Play to Win 100% Instantly! 🚀</p>
+        
+        <div class="balance-glow">$10</div>
 
-    <h3 style="color: #00ffcc; margin-top: 20px;">🎮 ARCADE ZONE</h3>
-    <div class="grid">
-        <div class="card"><h3>🏎️ Car Racing</h3><a href="racing.html" class="btn">Drive</a></div>
-        <div class="card"><h3>♟️ Chess Pro</h3><a href="chess.html" class="btn">Match Bot</a></div>
-        <div class="card"><span class="vip-tag">VIP</span><h3>🪂 Pubg Mini</h3><button onclick="openVipLock('pubg.html')" class="btn">Battle</button></div>
-    </div>
-
-    <h3 style="color: #e0115f; margin-top: 20px;">🔞 ADULT LOCKERS</h3>
-    <div class="grid">
-        <div class="card" style="border-color: #e0115f;"><span class="vip-tag">18+</span><h3>💋 Truth/Dare</h3><button onclick="openVipLock('truthdare.html')" class="btn" style="background:#e0115f;">Start Hot</button></div>
-        <div class="card" style="border-color: #e0115f;"><span class="vip-tag">18+</span><h3>🎡 Adult Spin</h3><button onclick="openVipLock('adultspin.html')" class="btn" style="background:#e0115f;">Spin Now</button></div>
-    </div>
-
-    <!-- 🚨 POPUP ENGINE BOX 🚨 -->
-    <div class="vip-modal" id="gateModal">
-        <div class="modal-box">
-            <h2 style="color:gold; margin:0;">🔞 VIP ROOM LOCKED</h2>
-            <p style="font-size:13px; color:#ccc; margin-top:10px;">Premium 18+ Games, Active Dating Networks & High-Stakes casino action require subscription verify check.</p>
-            <h3 style="color:#00ffcc; margin:10px 0;">VIP Pass Price: ₹99 / Month</h3>
-            <a href="wallet.html" class="pay-btn">⚡ Recharge & Unlock VIP</a>
-            <br>
-            <button onclick="hideGate()" style="background:transparent; color:#aaa; border:none; margin-top:15px; cursor:pointer;">✕ Go Back</button>
+        <!-- Input Box Setup -->
+        <div class="input-group">
+            <input type="number" id="depositAmount" value="10" placeholder="Enter Amount ($)">
         </div>
+
+        <!-- Action Button -->
+        <button onclick="processDeposit()" class="paypal-btn">Pay with PayPal</button>
+        
+        <p class="notice">⚠️ Note: Minimum Deposit required is <b>$50</b> for game unlocks.</p>
     </div>
 
     <script>
-        function openVipLock(targetPage) {
-            // Displays popup blocker instantly when a VIP designated link asset is clicked
-            document.getElementById("gateModal").style.display = "flex";
-        }
-        function hideGate() {
-            document.getElementById("gateModal").style.display = "none";
+        function processDeposit() {
+            var amountInput = document.getElementById("depositAmount").value;
+            var amount = parseFloat(amountInput);
+
+            // 🚨 Minimum $50 Validation Check
+            if (isNaN(amount) || amount < 50) {
+                alert("❌ Deposit Failed! Minimum required deposit is $50 to instantly unlock winning algorithms.");
+                return;
+            }
+
+            // Integration matrix setup triggers here
+            alert("Proceeding to PayPal Secure Gateway to deposit: $" + amount);
+            
+            /* 
+               Aapka PayPal Script Integration Logic yahan triggers hoga:
+               currency: 'USD',
+               value: amount
+            */
         }
     </script>
+
 </body>
 </html>
